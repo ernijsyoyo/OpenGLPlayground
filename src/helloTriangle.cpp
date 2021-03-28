@@ -34,8 +34,14 @@ int helloTriangle::openWindow(){
   glViewport(0, 0, 800, 600);
   while(!glfwWindowShouldClose(window))
   {
+      // read input
       processInput(window);
 
+      // Process graphics
+      glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+      glClear(GL_COLOR_BUFFER_BIT);
+
+      // Render
       glfwSwapBuffers(window);
       glfwPollEvents();    
   }
