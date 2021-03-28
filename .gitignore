@@ -32,6 +32,7 @@
 *.app
 
 #VS Code stuff
+.vscode/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
