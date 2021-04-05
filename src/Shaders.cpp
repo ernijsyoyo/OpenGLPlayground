@@ -53,6 +53,25 @@ unsigned int Shaders::getExampleFragmentShader() {
   return fragShaderRef;
 }
 
+unsigned int Shaders::getExampleLinkProgram(){
+  // Get shaders
+  auto vertexShader = Shaders::getExampleVertShader();
+  auto fragmentShader = Shaders::getExampleFragmentShader();
+
+  // Create a shader linker program and attach the shader references
+  auto shaderProgram = glCreateProgram();
+  glAttachShader(shaderProgram, vertexShader);
+  glAttachShader(shaderProgram, fragmentShader);
+  glLinkProgram(shaderProgram);
+  
+  // Check for errors and clean-up unused shaders
+  Shaders::checkLinkTimeErrors(shaderProgram);
+  glDeleteShader(vertexShader);
+  glDeleteShader(fragmentShader);
+  
+  return shaderProgram;
+}
+
 void Shaders::checkShaderCompileTimeErrors(unsigned int shaderId, std::string shaderType){
   int  success;
   char infoLog[512];

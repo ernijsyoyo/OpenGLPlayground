@@ -15,7 +15,6 @@ helloTriangle::~helloTriangle() {
 }
 
 int helloTriangle::initGLAD() { 
-  
   return 0;
 }
 
@@ -47,15 +46,8 @@ void helloTriangle::startRendering(GLFWwindow* window) {
   auto fragShader = Shaders::getExampleFragmentShader();
 
   // Create a shader linker program and attach the shaders
-  auto shaderProgram = glCreateProgram();
-  glAttachShader(shaderProgram, vertexShader);
-  glAttachShader(shaderProgram, fragShader);
-  glLinkProgram(shaderProgram);
-  Shaders::checkLinkTimeErrors(shaderProgram);
+  auto shaderProgram = Shaders::getExampleLinkProgram();
   glUseProgram(shaderProgram);
-
-  glDeleteShader(vertexShader);
-  glDeleteShader(fragShader);
 
   // Specify triangle vertices
   float vertices[] = {
@@ -126,6 +118,7 @@ void helloTriangle::setFill(GLFWwindow *window){
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   }
 }
+
 void helloTriangle::closeWindow(GLFWwindow *window) {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);

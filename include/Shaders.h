@@ -14,6 +14,7 @@ public:
   ~Shaders();
   static unsigned int getExampleVertShader();
   static unsigned int getExampleFragmentShader();
+  static unsigned int getExampleLinkProgram();
   static void checkShaderCompileTimeErrors(unsigned int shaderId, std::string shaderType);
   static void checkLinkTimeErrors(unsigned int linkProgramId);
 };
