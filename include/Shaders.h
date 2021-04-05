@@ -12,9 +12,8 @@ private:
 public:
   Shaders();
   ~Shaders();
-  static const std::string getExampleVertShader();
-  static const std::string getExampleFragmentShader();
-  static void checkCompileTimeVertexErrors(unsigned int shaderId);
-  static void checkCompileTimeFragErrors(unsigned int shaderId);
+  static unsigned int getExampleVertShader();
+  static unsigned int getExampleFragmentShader();
+  static void checkShaderCompileTimeErrors(unsigned int shaderId, std::string shaderType);
   static void checkLinkTimeErrors(unsigned int linkProgramId);
 };

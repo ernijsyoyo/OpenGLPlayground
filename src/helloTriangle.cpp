@@ -41,41 +41,21 @@ int helloTriangle::openWindow() {
 }
 
 void helloTriangle::startRendering(GLFWwindow* window) {
-  // vertex vert_1(-0.5f, -0.5f, 0.0f);
-  // vertex vert_2(0.5f, -0.5f, 0.0f);
-  // vertex vert_3(0.5f, 0.0f, 0.0f);
-  // polygon triangle(&vert_1, &vert_2, &vert_3);
 
   // Get and create shader holders
   auto vertexShader = Shaders::getExampleVertShader();
   auto fragShader = Shaders::getExampleFragmentShader();
-  auto vertexShader_C_STR = vertexShader.c_str();
-  auto fragShader_C_STR = fragShader.c_str();
-  
-  // Create vertex/fragment shader objects
-  auto vertexShaderRef = glCreateShader(GL_VERTEX_SHADER);
-  auto fragShaderRef = glCreateShader(GL_FRAGMENT_SHADER);
-  
-  // Set shader source code and compile
-  glShaderSource(vertexShaderRef, 1, &vertexShader_C_STR, NULL);
-  glShaderSource(fragShaderRef, 1, &fragShader_C_STR, NULL);
-  glCompileShader(vertexShaderRef);
-  glCompileShader(fragShaderRef);
-  
-  // Check for runtime compilation errors
-  Shaders::checkCompileTimeVertexErrors(vertexShaderRef);
-  Shaders::checkCompileTimeFragErrors(fragShaderRef);
 
   // Create a shader linker program and attach the shaders
   auto shaderProgram = glCreateProgram();
-  glAttachShader(shaderProgram, vertexShaderRef);
-  glAttachShader(shaderProgram, fragShaderRef);
+  glAttachShader(shaderProgram, vertexShader);
+  glAttachShader(shaderProgram, fragShader);
   glLinkProgram(shaderProgram);
   Shaders::checkLinkTimeErrors(shaderProgram);
   glUseProgram(shaderProgram);
 
-  glDeleteShader(vertexShaderRef);
-  glDeleteShader(fragShaderRef);
+  glDeleteShader(vertexShader);
+  glDeleteShader(fragShader);
 
   // Specify triangle vertices
   float vertices[] = {

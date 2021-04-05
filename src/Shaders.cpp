@@ -25,35 +25,45 @@ Shaders::~Shaders(){
 
 }
 
-const std::string Shaders::getExampleVertShader() {
-  return Shaders::ExampleVertShader;
+unsigned int Shaders::getExampleVertShader() {
+  // Get shader source code and create blank vertex shader
+  auto vertexShaderSrc = Shaders::ExampleVertShader.c_str();
+  auto vertexShaderRef = glCreateShader(GL_VERTEX_SHADER);
+
+  // Set shader source code and compile
+  glShaderSource(vertexShaderRef, 1, &vertexShaderSrc, NULL);
+  glCompileShader(vertexShaderRef);
+
+  // Check for compile errors and return
+  Shaders::checkShaderCompileTimeErrors(vertexShaderRef, "VERTEX");
+  return vertexShaderRef;
 }
 
-const std::string Shaders::getExampleFragmentShader() {
-  return Shaders::ExampleFragShader;
+unsigned int Shaders::getExampleFragmentShader() {
+  // Get shader source code and create blank vertex shader
+  auto fragShaderSrc = Shaders::ExampleFragShader.c_str();
+  auto fragShaderRef = glCreateShader(GL_FRAGMENT_SHADER);
+  
+  // Set shader source code and compile
+  glShaderSource(fragShaderRef, 1, &fragShaderSrc, NULL);
+  glCompileShader(fragShaderRef);
+
+  // Check for compile errors and return
+  Shaders::checkShaderCompileTimeErrors(fragShaderRef, "FRAGMENT");
+  return fragShaderRef;
 }
 
-void Shaders::checkCompileTimeVertexErrors(unsigned int shaderId){
+void Shaders::checkShaderCompileTimeErrors(unsigned int shaderId, std::string shaderType){
   int  success;
   char infoLog[512];
   glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
 
   if(!success) {
       glGetShaderInfoLog(shaderId, 512, NULL, infoLog);
-      std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+      std::cout << "ERROR::SHADER::" << shaderType << "::COMPILATION_FAILED\n" << infoLog << std::endl;
   }
 }
 
-void Shaders::checkCompileTimeFragErrors(unsigned int shaderId){
-  int  success;
-  char infoLog[512];
-  glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
-
-  if(!success) {
-      glGetShaderInfoLog(shaderId, 512, NULL, infoLog);
-      std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-  }
-}
 void Shaders::checkLinkTimeErrors(unsigned int linkProgramID) {
   int  success;
   char infoLog[512];
