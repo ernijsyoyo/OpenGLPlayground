@@ -3,8 +3,7 @@
 
 int main(int argc, char const *argv[])
 {
-  helloTriangle triangle;
-  triangle.printHello();
+  helloTriangle triangle(800, 600);
   triangle.openWindow();
   
   return 0;

@@ -1,15 +1,25 @@
+#pragma once 
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <geometricalStructs.h>
+#include <Shaders.h>
 
 class helloTriangle
 {
 private:
-  /* data */
+  const int dimensionX;
+  const int dimensionY;
+
+  /* Initializes OpenGL function pointers */
+  int initGLAD();
+  /* Reads user input for closing the window*/
+  void closeWindow(GLFWwindow *window);
+  /* Initializes the render loop*/
+  void startRendering(GLFWwindow* window);
 public:
-  helloTriangle();
+  helloTriangle(int sizeX, int sizeY);
   ~helloTriangle();
-  void processInput(GLFWwindow *window);
   int openWindow();
-  void printHello();
 };
