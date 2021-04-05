@@ -3,8 +3,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <geometricalStructs.h>
 #include <Shaders.h>
+#include <Mesh.h>
 
 class helloTriangle
 {

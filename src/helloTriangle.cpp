@@ -40,11 +40,6 @@ int helloTriangle::openWindow() {
 }
 
 void helloTriangle::startRendering(GLFWwindow* window) {
-
-  // Get and create shader holders
-  auto vertexShader = Shaders::getExampleVertShader();
-  auto fragShader = Shaders::getExampleFragmentShader();
-
   // Create a shader linker program and attach the shaders
   auto shaderProgram = Shaders::getExampleLinkProgram();
   glUseProgram(shaderProgram);
@@ -55,6 +50,13 @@ void helloTriangle::startRendering(GLFWwindow* window) {
      0.5f, -0.5f, 0.0f,  // bottom right
     -0.5f, -0.5f, 0.0f,  // bottom left
     -0.5f,  0.5f, 0.0f   // top left 
+  };
+
+  float vertices2[] = {
+     0.2f,  0.35f, 0.0f,  // top right
+     0.4f, -0.45f, 0.0f,  // bottom right
+    -0.15f, -0.1f, 0.0f,  // bottom left
+    -0.05f,  0.25f, 0.0f   // top left 
   };  
   
   unsigned int indices[] = {  // note that we start from 0!
@@ -101,6 +103,10 @@ void helloTriangle::startRendering(GLFWwindow* window) {
     glfwSwapBuffers(window);
     glfwPollEvents();    
   }
+  
+  glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteProgram(shaderProgram);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
