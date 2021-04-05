@@ -16,6 +16,8 @@ private:
   int initGLAD();
   /* Reads user input for closing the window*/
   void closeWindow(GLFWwindow *window);
+  void setWireFrame(GLFWwindow *window);
+  void setFill(GLFWwindow *window);
   /* Initializes the render loop*/
   void startRendering(GLFWwindow* window);
 public:
