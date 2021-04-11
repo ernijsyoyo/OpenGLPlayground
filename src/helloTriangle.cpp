@@ -41,7 +41,9 @@ int helloTriangle::openWindow() {
 
 void helloTriangle::startRendering(GLFWwindow* window) {
   // Create a shader linker program and attach the shaders
-  auto shaderProgram = Shaders::getExampleLinkProgram();
+  auto vertShaderMode = Shaders::vertShaders::dfltVertShdr;
+  auto fragShaderMode = Shaders::fragShaders::dfltFragShdr;
+  auto shaderProgram = Shaders::getExampleLinkProgram(vertShaderMode, fragShaderMode);
   glUseProgram(shaderProgram);
 
   // Specify triangle vertices
@@ -105,8 +107,8 @@ void helloTriangle::startRendering(GLFWwindow* window) {
   }
   
   glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteProgram(shaderProgram);
+  glDeleteBuffers(1, &VBO);
+  glDeleteProgram(shaderProgram);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {

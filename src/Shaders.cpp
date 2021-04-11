@@ -25,9 +25,16 @@ Shaders::~Shaders(){
 
 }
 
-unsigned int Shaders::getExampleVertShader() {
+unsigned int Shaders::getVertShader(Shaders::vertShaders vertexShadeMode) {
+  // Determine which shader to work with
+  const char* vertexShaderSrc;
+  switch (vertexShadeMode) {
+    case Shaders::vertShaders::dfltVertShdr:
+      vertexShaderSrc = Shaders::ExampleVertShader.c_str();
+      break;
+  }
+
   // Get shader source code and create blank vertex shader
-  auto vertexShaderSrc = Shaders::ExampleVertShader.c_str();
   auto vertexShaderRef = glCreateShader(GL_VERTEX_SHADER);
 
   // Set shader source code and compile
@@ -39,9 +46,16 @@ unsigned int Shaders::getExampleVertShader() {
   return vertexShaderRef;
 }
 
-unsigned int Shaders::getExampleFragmentShader() {
+unsigned int Shaders::getFragShader(Shaders::fragShaders fragmentShaderMode) {
+  // Determine which shader to work with
+  const char* fragShaderSrc;
+  switch (fragmentShaderMode) {
+    case Shaders::fragShaders::dfltFragShdr:
+      fragShaderSrc = Shaders::ExampleFragShader.c_str();
+      break;
+  }
+  
   // Get shader source code and create blank vertex shader
-  auto fragShaderSrc = Shaders::ExampleFragShader.c_str();
   auto fragShaderRef = glCreateShader(GL_FRAGMENT_SHADER);
   
   // Set shader source code and compile
@@ -53,11 +67,12 @@ unsigned int Shaders::getExampleFragmentShader() {
   return fragShaderRef;
 }
 
-unsigned int Shaders::getExampleLinkProgram(){
+unsigned int Shaders::getExampleLinkProgram(Shaders::vertShaders vertexShadeMode,
+                                            Shaders::fragShaders fragmentShaderMode) {
   // Get shaders
-  auto vertexShader = Shaders::getExampleVertShader();
-  auto fragmentShader = Shaders::getExampleFragmentShader();
-
+  unsigned int vertexShader = Shaders::getVertShader(vertexShadeMode);
+  unsigned int fragmentShader = Shaders::getFragShader(fragmentShaderMode);
+  
   // Create a shader linker program and attach the shader references
   auto shaderProgram = glCreateProgram();
   glAttachShader(shaderProgram, vertexShader);

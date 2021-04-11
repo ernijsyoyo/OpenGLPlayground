@@ -5,16 +5,21 @@
 
 class Shaders
 {
-private:
-  /* data */
-  const static std::string ExampleVertShader;
-  const static std::string ExampleFragShader;
 public:
   Shaders();
   ~Shaders();
-  static unsigned int getExampleVertShader();
-  static unsigned int getExampleFragmentShader();
-  static unsigned int getExampleLinkProgram();
+  enum vertShaders {dfltVertShdr};
+  enum fragShaders {dfltFragShdr};
+
+  static unsigned int getExampleLinkProgram(Shaders::vertShaders vertexShadeMode, 
+                                            Shaders::fragShaders fragShaderMode);
   static void checkShaderCompileTimeErrors(unsigned int shaderId, std::string shaderType);
   static void checkLinkTimeErrors(unsigned int linkProgramId);
+
+private:
+  static unsigned int getVertShader(Shaders::vertShaders vertexShadeMode);
+  static unsigned int getFragShader(Shaders::fragShaders fragmentShaderMode);
+  const static std::string ExampleVertShader;
+  const static std::string ExampleFragShader;
+
 };
