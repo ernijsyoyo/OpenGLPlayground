@@ -1,6 +1,6 @@
 #include <Shaders.h>
 
-/* Member Variables */
+/* Vertex Shaders */
 const std::string Shaders::ExampleVertShader = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
     "out vec4 vertexColor;\n"
@@ -9,13 +9,24 @@ const std::string Shaders::ExampleVertShader = "#version 330 core\n"
     "   gl_Position = vec4(aPos, 1.0);\n"
     "   vertexColor = vec4(0.5, 0.0, 0.0, 1.0);\n"
     "}\0";
+const std::string Shaders::VertShaderColors = "#version 330 core\n"
+    "layout (location = 0) in vec3 aPos;\n"
+    "layout (location = 1) in vec3 aColor;\n"
+    "uniform float offset;\n"
+    "out vec3 vertexColor;\n"
+    "void main()\n"
+    "{\n"
+    "   gl_Position = vec4(aPos.xyz + offset, 1.0);\n"
+    "   vertexColor = aColor;\n"
+    "}\0";
 
+/* FragmentShaders */
 const std::string Shaders::ExampleFragShader = "#version 330 core \n"
-    "in vec4 vertexColor;\n"
+    "in vec3 vertexColor;\n"
     "out vec4 FragColor;\n"
     "void main()\n"
     "{\n"
-    "   FragColor = vertexColor;\n"
+    "   FragColor = vec4(vertexColor, 1.0f);\n"
     "}\0";
 
 const std::string Shaders::FragShader_Uniform = "#version 330 core \n"
@@ -42,6 +53,9 @@ unsigned int Shaders::getVertShader(Shaders::vertShaders vertexShadeMode) {
   switch (vertexShadeMode) {
     case Shaders::vertShaders::dfltVertShdr:
       vertexShaderSrc = Shaders::ExampleVertShader.c_str();
+      break;
+    case Shaders::vertShaders::colorsInVertexArray:
+      vertexShaderSrc = Shaders::VertShaderColors.c_str();
       break;
   }
 

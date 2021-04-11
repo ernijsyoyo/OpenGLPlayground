@@ -41,22 +41,21 @@ int helloTriangle::openWindow() {
 
 void helloTriangle::startRendering(GLFWwindow* window) {
   // Create a shader linker program and attach the shaders
-  auto vertShaderMode = Shaders::vertShaders::dfltVertShdr;
-  auto fragShaderMode = Shaders::fragShaders::fragShader_Uniform;
+  auto vertShaderMode = Shaders::vertShaders::colorsInVertexArray;
+  auto fragShaderMode = Shaders::fragShaders::dfltFragShdr;
   auto shaderProgram = Shaders::getExampleLinkProgram(vertShaderMode, fragShaderMode);
   glUseProgram(shaderProgram);
 
   // Specify triangle vertices
   float vertices[] = {
-     0.5f,  0.5f, 0.0f,  // top right
-     0.5f, -0.5f, 0.0f,  // bottom right
-    -0.5f, -0.5f, 0.0f,  // bottom left
-    -0.5f,  0.5f, 0.0f   // top left 
+    // Vertices             // Colors
+      0.25f, 0.0f, 0.0f,   1.0f, 0.0f, 0.0f, // top right
+      0.0f,  0.5f, 0.0f,   0.0f, 1.0f, 0.0f, // bottom right
+     -0.25f, -0.0f, 0.0f,   0.0f, 0.0f, 1.0f, // bottom left
   };
   
   unsigned int indices[] = {  // note that we start from 0!
-    0, 1, 3,   // first triangle
-    1, 2, 3    // second triangle
+    0, 1, 2   // first triangle
   }; 
 
   // Generate Vertex Buffer Object, VBO is buffer access ID
@@ -77,8 +76,10 @@ void helloTriangle::startRendering(GLFWwindow* window) {
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
   
   // Fill buffer with data
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);  
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+  glEnableVertexAttribArray(1);  
 
   while(!glfwWindowShouldClose(window)) {
     // read input
@@ -88,12 +89,14 @@ void helloTriangle::startRendering(GLFWwindow* window) {
 
     int vertexColorLocation = glGetUniformLocation(shaderProgram, "controllableColor");
     glUseProgram(shaderProgram);
-    auto coefficient = helloTriangle::getTimedCoefficient();
-    glUniform4f(vertexColorLocation, 0.0f, coefficient, coefficient, 1.0f);
 
     // Process graphics
     glClearColor(0.41f, 0.51f, 0.31f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    int vertexOffset = glGetUniformLocation(shaderProgram, "offset");
+    glUniform1f(vertexOffset, helloTriangle::getTimedCoefficient());
+
 
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO);
