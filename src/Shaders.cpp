@@ -3,16 +3,27 @@
 /* Member Variables */
 const std::string Shaders::ExampleVertShader = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
+    "out vec4 vertexColor;\n"
     "void main()\n"
     "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "   gl_Position = vec4(aPos, 1.0);\n"
+    "   vertexColor = vec4(0.5, 0.0, 0.0, 1.0);\n"
     "}\0";
 
 const std::string Shaders::ExampleFragShader = "#version 330 core \n"
+    "in vec4 vertexColor;\n"
     "out vec4 FragColor;\n"
     "void main()\n"
     "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+    "   FragColor = vertexColor;\n"
+    "}\0";
+
+const std::string Shaders::FragShader_Uniform = "#version 330 core \n"
+    "uniform vec4 controllableColor;\n"
+    "out vec4 FragColor;\n"
+    "void main()\n"
+    "{\n"
+    "   FragColor = controllableColor;\n"
     "}\0";
 
 
@@ -53,8 +64,11 @@ unsigned int Shaders::getFragShader(Shaders::fragShaders fragmentShaderMode) {
     case Shaders::fragShaders::dfltFragShdr:
       fragShaderSrc = Shaders::ExampleFragShader.c_str();
       break;
+    case Shaders::fragShaders::fragShader_Uniform:
+      fragShaderSrc = Shaders::FragShader_Uniform.c_str();
+      break;
   }
-  
+
   // Get shader source code and create blank vertex shader
   auto fragShaderRef = glCreateShader(GL_FRAGMENT_SHADER);
   

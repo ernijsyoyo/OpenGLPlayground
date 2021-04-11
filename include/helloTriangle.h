@@ -5,6 +5,7 @@
 #include <iostream>
 #include <Shaders.h>
 #include <Mesh.h>
+#include <math.h>
 
 class helloTriangle
 {
@@ -20,6 +21,7 @@ private:
   void setFill(GLFWwindow *window);
   /* Initializes the render loop*/
   void startRendering(GLFWwindow* window);
+  float getTimedCoefficient();
 public:
   helloTriangle(int sizeX, int sizeY);
   ~helloTriangle();

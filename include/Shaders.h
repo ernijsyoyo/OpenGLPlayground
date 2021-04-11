@@ -9,7 +9,7 @@ public:
   Shaders();
   ~Shaders();
   enum vertShaders {dfltVertShdr};
-  enum fragShaders {dfltFragShdr};
+  enum fragShaders {dfltFragShdr, fragShader_Uniform};
 
   static unsigned int getExampleLinkProgram(Shaders::vertShaders vertexShadeMode, 
                                             Shaders::fragShaders fragShaderMode);
@@ -21,5 +21,5 @@ private:
   static unsigned int getFragShader(Shaders::fragShaders fragmentShaderMode);
   const static std::string ExampleVertShader;
   const static std::string ExampleFragShader;
-
+  const static std::string FragShader_Uniform;
 };
