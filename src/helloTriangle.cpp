@@ -41,7 +41,7 @@ int helloTriangle::openWindow() {
 
 void helloTriangle::startRendering(GLFWwindow* window) {
   // Create a shader linker program and attach the shaders
-  ShaderReader shader("shaders/Vertex/UpsideDown.glsl", "shaders/Fragment/Example.glsl");
+  ShaderReader shader("res/shaders/Vertex/UpsideDown.glsl", "res/shaders/Fragment/Example.glsl");
   shader.use();
 
   // Specify triangle vertices
@@ -84,7 +84,7 @@ void helloTriangle::startRendering(GLFWwindow* window) {
     closeWindow(window);
     setWireFrame(window);
     setFill(window);
-    
+
     // Process graphics
     glClearColor(0.41f, 0.51f, 0.31f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);

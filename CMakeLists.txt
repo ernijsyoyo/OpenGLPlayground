@@ -32,5 +32,5 @@ target_link_libraries(openGLPlayground glfw ${GLFW_LIBRARIES} sub::libGlad)
 # https://stackoverflow.com/questions/13429656/how-to-copy-contents-of-a-directory-into-build-directory-after-make-with-cmake
 add_custom_command(TARGET openGLPlayground POST_BUILD 
                   COMMAND ${CMAKE_COMMAND} -E copy_directory 
-                  "${CMAKE_SOURCE_DIR}/shaders/" 
-                  "${CMAKE_SOURCE_DIR}/bin/shaders/")
+                  "${CMAKE_SOURCE_DIR}/res/" 
+                  "${CMAKE_SOURCE_DIR}/bin/res/")
