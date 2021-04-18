@@ -15,6 +15,7 @@ set(INCL_FILES_DIR "${PROJECT_SOURCE_DIR}/include/")
 set(GLFW_INCLUDE "${PROJECT_SOURCE_DIR}/libs/glfw/include")
 set(GLAD_INCLUDE "${PROJECT_SOURCE_DIR}/libs/glad/include/glad")
 set(KHR_INCLUDE "${PROJECT_SOURCE_DIR}/libs/glad/include/KHR")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
 
 # Local include/ folder
 include_directories(
