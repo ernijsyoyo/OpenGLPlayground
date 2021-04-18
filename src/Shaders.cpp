@@ -16,7 +16,7 @@ const std::string Shaders::VertShaderColors = "#version 330 core\n"
     "out vec3 vertexColor;\n"
     "void main()\n"
     "{\n"
-    "   gl_Position = vec4(aPos.xyz + offset, 1.0);\n"
+    "   gl_Position = vec4(aPos.xyz * offset - offset/2, 1.0);\n"
     "   vertexColor = aColor;\n"
     "}\0";
 
