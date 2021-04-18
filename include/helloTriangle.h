@@ -6,6 +6,7 @@
 #include <Shaders.h>
 #include <Mesh.h>
 #include <math.h>
+#include <ShaderReader.h>
 
 class helloTriangle
 {

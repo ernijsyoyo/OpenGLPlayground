@@ -41,10 +41,8 @@ int helloTriangle::openWindow() {
 
 void helloTriangle::startRendering(GLFWwindow* window) {
   // Create a shader linker program and attach the shaders
-  auto vertShaderMode = Shaders::vertShaders::colorsInVertexArray;
-  auto fragShaderMode = Shaders::fragShaders::dfltFragShdr;
-  auto shaderProgram = Shaders::getExampleLinkProgram(vertShaderMode, fragShaderMode);
-  glUseProgram(shaderProgram);
+  ShaderReader shader("shaders/Vertex/UpsideDown.glsl", "shaders/Fragment/Example.glsl");
+  shader.use();
 
   // Specify triangle vertices
   float vertices[] = {
@@ -86,19 +84,12 @@ void helloTriangle::startRendering(GLFWwindow* window) {
     closeWindow(window);
     setWireFrame(window);
     setFill(window);
-
-    int vertexColorLocation = glGetUniformLocation(shaderProgram, "controllableColor");
-    glUseProgram(shaderProgram);
-
+    
     // Process graphics
     glClearColor(0.41f, 0.51f, 0.31f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    int vertexOffset = glGetUniformLocation(shaderProgram, "offset");
-    glUniform1f(vertexOffset, helloTriangle::getTimedCoefficient());
-
-
-    glUseProgram(shaderProgram);
+    shader.setFloat("offset", helloTriangle::getTimedCoefficient());
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
@@ -110,7 +101,7 @@ void helloTriangle::startRendering(GLFWwindow* window) {
   
   glDeleteVertexArrays(1, &VAO);
   glDeleteBuffers(1, &VBO);
-  glDeleteProgram(shaderProgram);
+  glDeleteProgram(shader.shaderProgram);
 }
 
 float helloTriangle::getTimedCoefficient() {
