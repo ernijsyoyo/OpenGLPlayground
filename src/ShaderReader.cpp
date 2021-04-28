@@ -81,6 +81,10 @@ void ShaderReader::setInt(const std::string &name, int value) const {
 void ShaderReader::setFloat(const std::string &name, float value) const {
     glUniform1f(glGetUniformLocation(shaderProgram, name.c_str()), value); 
 }
+void ShaderReader::setTransform(const std::string &name, glm::mat4 transformMatrix) {
+  unsigned int transformLoc = glGetUniformLocation(shaderProgram, name.c_str());
+  glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformMatrix));
+}
 
 /* Check shader compilation errors */
 void ShaderReader::checkShaderCompileTimeErrors(unsigned int shaderId, std::string shaderType, std::string path){

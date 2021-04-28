@@ -1,5 +1,9 @@
 #include <helloTriangle.h>  
 
+#include <glm/glm.hpp> // vec3, vec4, ivec4, mat4
+#include <glm/gtc/matrix_transform.hpp> // translate, rotate, scale, perspective
+#include <glm/gtc/type_ptr.hpp> // value_ptr
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);  
 
 helloTriangle::helloTriangle(int sizeX, int sizeY) : dimensionX(sizeX), dimensionY(sizeY) {
@@ -42,7 +46,7 @@ int helloTriangle::openWindow() {
 
 void helloTriangle::startRendering(GLFWwindow* window) {
   // Create a shader linker program and attach the shaders
-  ShaderReader shader("res/shaders/Vertex/VertTexture.glsl", "res/shaders/Fragment/FragTexture.glsl");
+  ShaderReader shader("res/shaders/Vertex/VertTextTrans.glsl", "res/shaders/Fragment/FragTexture.glsl");
   shader.use();
 
   // Specify triangle vertices
@@ -57,7 +61,12 @@ void helloTriangle::startRendering(GLFWwindow* window) {
   unsigned int indices[] = {  // note that we start from 0!
     0, 3, 1,   // first triangle
     3, 2, 1
-  }; 
+  };
+
+  // translation
+  glm::mat4 trans = glm::mat4(1.0f);
+  trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+  trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));  
 
 
   // Texturing
@@ -111,6 +120,7 @@ void helloTriangle::startRendering(GLFWwindow* window) {
     glClearColor(0.41f, 0.51f, 0.31f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     shader.setFloat("blending", getTimedCoefficient());
+    shader.setTransform("transform", trans);
 
     glBindVertexArray(VAO);
 
