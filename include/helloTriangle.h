@@ -1,4 +1,5 @@
-#pragma once 
+#ifndef _IMAGE_H_
+#define _IMAGE_H_
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -7,6 +8,8 @@
 #include <Mesh.h>
 #include <math.h>
 #include <ShaderReader.h>
+#include <Texture2D.h>
+
 
 class helloTriangle
 {
@@ -28,3 +31,5 @@ public:
   ~helloTriangle();
   int openWindow();
 };
+
+#endif

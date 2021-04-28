@@ -1,4 +1,5 @@
-#include <helloTriangle.h>
+#include <helloTriangle.h>  
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);  
 
 helloTriangle::helloTriangle(int sizeX, int sizeY) : dimensionX(sizeX), dimensionY(sizeY) {
@@ -41,20 +42,38 @@ int helloTriangle::openWindow() {
 
 void helloTriangle::startRendering(GLFWwindow* window) {
   // Create a shader linker program and attach the shaders
-  ShaderReader shader("res/shaders/Vertex/UpsideDown.glsl", "res/shaders/Fragment/Example.glsl");
+  ShaderReader shader("res/shaders/Vertex/VertTexture.glsl", "res/shaders/Fragment/FragTexture.glsl");
   shader.use();
 
   // Specify triangle vertices
   float vertices[] = {
-    // Vertices             // Colors
-      0.25f, 0.0f, 0.0f,   1.0f, 0.0f, 0.0f, // top right
-      0.0f,  0.5f, 0.0f,   0.0f, 1.0f, 0.0f, // bottom right
-     -0.25f, -0.0f, 0.0f,   0.0f, 0.0f, 1.0f, // bottom left
+    // positions          // colors           // texture coords
+     0.5f,  0.5f, 1.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
   };
   
   unsigned int indices[] = {  // note that we start from 0!
-    0, 1, 2   // first triangle
+    0, 3, 1,   // first triangle
+    3, 2, 1
   }; 
+
+
+  // Texturing
+  Texture2D texture("res/textures/fruitsconv.jpg", true);
+  texture.load();
+  Texture2D texture2("res/textures/frida4conv.jpg", true);
+  texture2.load();
+  
+  shader.setInt("texture1", 0);
+  shader.setInt("texture2", 1);
+
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, texture.getTextureId());
+  
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, texture2.getTextureId());
 
   // Generate Vertex Buffer Object, VBO is buffer access ID
   unsigned int VBO, VAO, EBO;
@@ -73,11 +92,14 @@ void helloTriangle::startRendering(GLFWwindow* window) {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
   
-  // Fill buffer with data
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+  // Fill buffer with data  
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);  
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);  
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+  glEnableVertexAttribArray(2);  
+
 
   while(!glfwWindowShouldClose(window)) {
     // read input
@@ -88,9 +110,10 @@ void helloTriangle::startRendering(GLFWwindow* window) {
     // Process graphics
     glClearColor(0.41f, 0.51f, 0.31f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    shader.setFloat("blending", getTimedCoefficient());
 
-    shader.setFloat("offset", helloTriangle::getTimedCoefficient());
     glBindVertexArray(VAO);
+
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
