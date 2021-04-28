@@ -82,6 +82,7 @@ void ShaderReader::setFloat(const std::string &name, float value) const {
     glUniform1f(glGetUniformLocation(shaderProgram, name.c_str()), value); 
 }
 
+
 /* Check shader compilation errors */
 void ShaderReader::checkShaderCompileTimeErrors(unsigned int shaderId, std::string shaderType, std::string path){
   int  success;
