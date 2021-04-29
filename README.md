@@ -18,3 +18,6 @@ Queries and locates OpenGL funcitons during program run-time
 
 `libs/glfw` \
 Library for rendering graphics to windows and handling user input
+
+`libs/glm` \
+OpenGL Mathematics, used for matrix and vector math
