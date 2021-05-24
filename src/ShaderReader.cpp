@@ -1,4 +1,6 @@
 #include "ShaderReader.h"
+#include "helloTriangle.h"
+
 ShaderReader::~ShaderReader(){
 
 }
@@ -67,6 +69,7 @@ void ShaderReader::compileShaderProgram() {
 }
 
 void ShaderReader::use() {
+  helloTriangle::activeShader = this;
   glUseProgram(shaderProgram);
 }
 

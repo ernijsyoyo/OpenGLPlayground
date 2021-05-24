@@ -9,5 +9,5 @@ layout (location = 1) in vec3 aColor;
 out vec3 vertexColor;
 void main()
 {
-  vertexColor = aColor
+  vertexColor = aColor;
 }

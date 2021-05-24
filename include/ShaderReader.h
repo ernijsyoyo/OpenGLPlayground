@@ -2,7 +2,6 @@
 #define SHADER_H
 
 #include <glad/glad.h> // include glad to get all the required OpenGL headers
-  
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -41,6 +40,7 @@ public:
     void setInt(const std::string &name, int value) const;   
     void setFloat(const std::string &name, float value) const;
     void setTransform(const std::string &name, glm::mat4 transformMatrix);
+    
 };
   
 #endif
